@@ -1,0 +1,21 @@
+div.search input {
+  float: left;
+  margin: 0px;
+  padding: 5px;
+}
+
+div.search h3 {
+  float: left;
+  color: green;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 25px;
+}
+
+div.ul ul{
+  float: left;
+  background-color: #dddddd;
+  text-decoration: none;
+  list-style: none;
+}

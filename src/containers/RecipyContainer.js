@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-// import NavBar from '../components/NavBar'
-import RecipyForm from '../components/RecipyForm'
+import NavBar from '../components/Nav/NavBar'
 import RecipySearch from '../components/RecipySearch'
 import RecipyList from '../components/RecipyList'
+import RecipyFavorites from '../components/RecipyFavorites'
 // import RecipyCard from '../components/RecipyCard'
 
 
@@ -11,44 +11,44 @@ const apiKey = "1fb8162c409560a5761d441b47415187"
 class RecipyContainer extends Component {
 
   state = {
-    recipes: {},
+    recipes: [],
+    searchedRecipes: [],
     searchTerm: '',
-    searchedTerm: 'chicken',
-    selectedRecipe: []
+    selectedRecipe: [],
+    favorites: []
   }
+
+
 
   handleChange = (event) => {
     event.preventDefault()
-    this.setState({
-      searchTerm: event.target.value
-    },  () => {this.handleSearch()})
-    console.log(this.state.searchTerm) //b
-  }
 
-  handleSearch = () => {
-    if (this.searchTerm === ''){
+    if (event.target.value === "" || null){
       this.setState({
-        searchedTerm: ""
+        searchTerm: event.target.value,
+        searchedRecipes: this.state.recipes
       })
-      console.log(this.state.searchedTerm)
     } else {
-      searchedTerm: `${this.state.searchTerm}`
-      let results = this.state.recipes.recipes
-      console.log(results);//undefined
-      console.log(this.state.searchedTerm); //chicken
-      let searchedRecipes = results.filter((recipe) => {
-        return recipe.title.toLowerCase().includes(this.state.searchedTerm.toLowerCase())
-      })
+      let searchingRecipes = this.state.recipes.filter(recipe => (recipe.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())))
       this.setState({
-        recipes: searchedRecipes
+        searchTerm: event.target.value,
+        searchedRecipes: searchingRecipes
+
       })
     }
 
   }
 
+  handleSelection = (event) => {
+    event.preventDefault()
+    // if favoriteButton is clicked add obj to favorites array
+    const selected = this.recipe
+    this.setState({favorites: [...this.state.favorites, selected]})
+  }
+
 
   componentDidMount(){
-    fetch(`https://community-food2fork.p.mashape.com/search?key=1fb8162c409560a5761d441b47415187&q=${this.state.searchedTerm}`,
+    fetch(`https://community-food2fork.p.mashape.com/search?key=1fb8162c409560a5761d441b47415187&q=${this.state.searchTerm}`,
       {
         'headers':
         {
@@ -59,7 +59,8 @@ class RecipyContainer extends Component {
     .then(r => r.json())
     .then(json => {
       this.setState({
-        recipes: json,
+        recipes: json.recipes,
+        searchedRecipes: json.recipes
     })
   })
   }
@@ -67,19 +68,15 @@ class RecipyContainer extends Component {
 
 
   render(){
-    console.log(this.state.recipes.recipes); //undefined?
+    console.log(this.state.favorites);
     return(
-      <div>
-
-
-        <RecipySearch recipes={this.state.recipes} searchTerm={this.state.searchTerm} handleChange={this.handleChange}/>
-        <RecipyList recipes={this.state.recipes} searchTerm={this.state.searchTerm}/>
-
+      <div id="body">
+        <RecipySearch id="search" recipes={this.state.searchedRecipes} searchTerm={this.state.searchTerm} handleChange={this.handleChange}/>
+        <RecipyList id="list" recipes={this.state.searchedRecipes} searchTerm={this.state.searchTerm}/>
+        <RecipyFavorites id='favorites' favorites={this.state.favorites} handleSelection={this.handleSelection}/>
       </div>
     )
   }
 
 }
 export default RecipyContainer;
-
-// ${this.state.searchedTerm}
