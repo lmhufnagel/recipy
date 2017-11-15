@@ -8,6 +8,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   image-orientation: center;
+  color: white
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -17,3 +18,8 @@
 }
 
 /* Add some padding inside the card container */
+
+
+.button {
+
+}
