@@ -3,6 +3,8 @@ import NavBar from '../components/Nav/NavBar'
 import RecipySearch from '../components/RecipySearch'
 import RecipyList from '../components/RecipyList'
 import RecipyFavorites from '../components/RecipyFavorites'
+import RecipyHome from '../components/RecipyHome'
+import {Route, Switch, Link } from 'react-router-dom'
 // import RecipyCard from '../components/RecipyCard'
 
 
@@ -39,11 +41,15 @@ class RecipyContainer extends Component {
 
   }
 
-  handleSelection = (event) => {
+  handleSelection = (event, recipe) => {
     event.preventDefault()
     // if favoriteButton is clicked add obj to favorites array
-    const selected = this.recipe
-    this.setState({favorites: [...this.state.favorites, selected]})
+    if (this.state.favorites.includes(recipe)){
+      return this.state.favorites
+    }else{
+      this.setState({favorites: [...this.state.favorites, recipe]})
+      console.log(this.state.favorites);
+    }
   }
 
 
@@ -68,12 +74,18 @@ class RecipyContainer extends Component {
 
 
   render(){
+
     console.log(this.state.favorites);
     return(
+
+
       <div id="body">
+
+
+        <Route path='/favorites' component={RecipyFavorites}/>
         <RecipySearch id="search" recipes={this.state.searchedRecipes} searchTerm={this.state.searchTerm} handleChange={this.handleChange}/>
-        <RecipyList id="list" recipes={this.state.searchedRecipes} searchTerm={this.state.searchTerm}/>
-        <RecipyFavorites id='favorites' favorites={this.state.favorites} handleSelection={this.handleSelection}/>
+        <RecipyList id="list" handleSelection={this.handleSelection} recipes={this.state.searchedRecipes} searchTerm={this.state.searchTerm}/>
+        <RecipyFavorites id='fav' favorites={this.state.favorites} />
       </div>
     )
   }

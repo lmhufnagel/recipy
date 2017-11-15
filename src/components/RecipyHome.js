@@ -7,6 +7,7 @@ class RecipyHome extends Component {
     return(
       <div>
         <h1 class="title">Welcome to Recipy</h1>
+        <p class="subtitle">A place to find and save your favorite recipes </p>
       </div>
     )
   }

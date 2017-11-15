@@ -8,7 +8,6 @@ const NavBar = (props) => {
 <div className="Nav">
   <ul>
     <li><a href="/search">Search</a></li>
-    <li><a href='/favorites'>Favorites</a></li>
     <li><a href="/">Home</a></li>
   </ul>
 </div>

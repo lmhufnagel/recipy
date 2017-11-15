@@ -2,11 +2,11 @@ import React from 'react'
 import RecipyContainer from '../containers/RecipyContainer'
 import './css/list.css'
 
-const RecipyFavorites = ({favorites}) => {
-
+const RecipyFavorites = (props) => {
+console.log(props.favorites);
   return (
     <div>
-     {favorites.map((recipe, index) =>{
+     {props.favorites.map((recipe, index) =>{
       return<div className='card' key={index}>
       <a href={recipe.source_url}>
         <img src={recipe.image_url} id="image"/><br></br>
